@@ -71,6 +71,17 @@ document.getElementById("sort-submit").addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
     e.preventDefault()
 
+    // データの初期表示
+    fetch("/sort").then(response => {
+        console.log(response)
+        response.json().then((data) => {
+            console.log(data) // 取得されたレスポンスデータをデバッグ表示
+            // データを表示させる
+            //const tableBody = document.querySelector("#todo-list > tbody")
+            //tableBody.innerHTML = ""
+        })
+    })
+
     // データをソートする処理
     // jsonファイルの内容を変えずに表示上でソートする
 })

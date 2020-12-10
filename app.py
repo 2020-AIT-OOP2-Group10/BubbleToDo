@@ -47,9 +47,15 @@ def remove():
 # http://127.0.0.1:5000/sort
 @app.route('/sort')
 def sort():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
     # 期限の近い順にソート
+    print(json_data[0]["id"])
+
+
     # jsonファイルの内容は変更せずに、htmlの表示上で変える
-    pass
+    return jsonify(json_data)
 
 
 # http://127.0.0.1:5000/
