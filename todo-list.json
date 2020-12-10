@@ -2,6 +2,7 @@
     {
         "id": 1,
         "content": "内容",
-        "timelimit": "2020/12/10"
+        "timelimit": "2020/12/10",
+        "color": "#ff0000"
     }
 ]

@@ -23,7 +23,10 @@ function init() {
                 tr.appendChild(td)
                 // 内容
                 td = document.createElement('td')
-                td.innerText = elm.content
+                let p = document.createElement('p')
+                p.style.color = elm.color
+                p.innerText = elm.content
+                td.appendChild(p)
                 tr.appendChild(td)
                 // 期限
                 td = document.createElement('td')
