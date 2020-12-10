@@ -1,5 +1,5 @@
 # BubbleToDo
-ToDoリスト
+バブルUI付きToDoリスト
 
 # 内部ディレクトリ構造
 <pre>
@@ -36,10 +36,10 @@ Repository/
 
 |  キー  |  値  |
 | ---- | ---- |
-|  id  |  データ識別用ID。削除時に使用。整数型  |
-|  content  |  ToDoリストの内容。文字列型。  |
-|  timelimit  |  ToDoの期限。文字列型。  |
-|  color  |  ToDoとバブルを対応づけるための色。文字列型でカラーコードが保存される。  |
+|  id  |  データ識別用ID.削除時に使用.整数型.  |
+|  content  |  ToDoリストの内容.文字列型.  |
+|  timelimit  |  ToDoの期限.文字列型.  |
+|  color  |  ToDoとバブルを対応づけるための色.文字列型でカラーコードが保存される.  |
 
 # バージョン
 
@@ -53,3 +53,12 @@ Repository/
 <pre>$ python3 app.py</pre>
 
 2. ブラウザにて、127.0.0.1:5000またはlocalhost:5000にアクセス
+
+# 担当者
+
+|  内容  |  担当者  |
+| ---- | ---- |
+|  バブルUI  |  EveSquare  |
+|  データの追加  |  LongMine  |
+|  データの削除  |  k19051  |
+|  データのソート  |  KawaiKohsuke  |
