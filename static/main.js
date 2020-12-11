@@ -1,8 +1,8 @@
 // データを初期表示する
 // 第9回課題と違ってチェックボックスを追加するのを忘れずに
-function init() {
+function init(app_route="/get") {
     // データの初期表示
-    fetch("/get").then(response => {
+    fetch(route).then(response => {
         console.log(response)
         response.json().then((data) => {
             console.log(data) // 取得されたレスポンスデータをデバッグ表示
@@ -71,17 +71,6 @@ document.getElementById("sort-submit").addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
     e.preventDefault()
 
-    // データの初期表示
-    fetch("/sort").then(response => {
-        console.log(response)
-        response.json().then((data) => {
-            console.log(data) // 取得されたレスポンスデータをデバッグ表示
-            // データを表示させる
-            //const tableBody = document.querySelector("#todo-list > tbody")
-            //tableBody.innerHTML = ""
-        })
-    })
-
-    // データをソートする処理
-    // jsonファイルの内容を変えずに表示上でソートする
+    // データは既に"app.py"にてソートされている。表示する手順はinit()と同様である
+    init("/sort")    
 })
