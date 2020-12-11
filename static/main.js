@@ -2,7 +2,7 @@
 // 第9回課題と違ってチェックボックスを追加するのを忘れずに
 function init(app_route="/get") {
     // データの初期表示
-    fetch(route).then(response => {
+    fetch(app_route).then(response => {
         console.log(response)
         response.json().then((data) => {
             console.log(data) // 取得されたレスポンスデータをデバッグ表示
