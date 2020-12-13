@@ -1,8 +1,9 @@
 // データを初期表示する
 // 第9回課題と違ってチェックボックスを追加するのを忘れずに
-function init() {
+// 引数は"app.py - @app.route"の引数。初期値は"/get"。
+function init(app_route="/get") {
     // データの初期表示
-    fetch("/get").then(response => {
+    fetch(app_route).then(response => {
         console.log(response)
         response.json().then((data) => {
             console.log(data) // 取得されたレスポンスデータをデバッグ表示
@@ -71,6 +72,6 @@ document.getElementById("sort-submit").addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
     e.preventDefault()
 
-    // データをソートする処理
-    // jsonファイルの内容を変えずに表示上でソートする
+    // データは既に"app.py"にてソートされている。表示する手順はinit()と同様である
+    init(app_route="/sort")    
 })

@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 import json  # Python標準のJSONライブラリを読み込んで、データの保存等に使用する
+import datetime # 日付でソートする際に使用
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False  # 日本語などのASCII以外の文字列を返したい場合は、こちらを設定しておく
@@ -47,9 +48,22 @@ def remove():
 # http://127.0.0.1:5000/sort
 @app.route('/sort')
 def sort():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
     # 期限の近い順にソート
+    sort_data = sorted(
+        json_data,
+        key=lambda x:
+            datetime.date(
+                datetime.datetime.strptime(x["timelimit"], "%Y/%m/%d").year,
+                datetime.datetime.strptime(x["timelimit"], "%Y/%m/%d").month,
+                datetime.datetime.strptime(x["timelimit"], "%Y/%m/%d").day
+            )
+    )
+
     # jsonファイルの内容は変更せずに、htmlの表示上で変える
-    pass
+    return jsonify(sort_data)
 
 
 # http://127.0.0.1:5000/
