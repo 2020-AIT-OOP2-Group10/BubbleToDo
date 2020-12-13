@@ -57,10 +57,23 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
 
     // データを削除する処理
     // チェックボックスの入った要素のidを取得
-    // 取得したidを渡してpythonのjson削除関数を呼ぶ
+    var n = document.getElementById("tbody").childElementCount;
+    let checkedIds = [];
+    for (i=1;i<=n;i++){
+        todo=document.getElementById(i);
+        if(todo.checked){
+            checkedIds.push(i);
+        }
+    }
 
-    // データを表示
-    init()
+    let array = new FormData();
+    array.append("checkedIds",checkedIds);
+
+    // 取得したidを渡してpythonのjson削除関数を呼ぶ
+    fetch('/remove', { method: 'POST', body: array, }).then(function (response) {
+        // データを表示
+        init()
+    })
 })
 
 // データをソートする(KawaiKohsuke)
