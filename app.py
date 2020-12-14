@@ -32,17 +32,38 @@ def add():
 
 
 # http://127.0.0.1:5000/remove
-@app.route('/remove')
+@app.route('/remove', methods=["POST"])
 def remove():
     # jsonファイルから選択されたデータを削除する
-
+    
     # 1.jsonファイルを開く
-    # 2.削除するデータのid配列を取得
-    # 3.jsonデータの"id"項目が一致するものを削除
-    # 4.jsonファイルに書き込む
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
 
-    # todoリストのデータ自体は返さない
-    pass
+    # 2.削除するデータのid配列を取得(str型→list型)
+    removeIds_unique = request.form.get('checkedIds')
+    removeIds = removeIds_unique.split(',')
+
+    # 3.jsonデータの"id"項目が一致するものを削除
+    for e in removeIds:
+        for i in range(len(json_data)):
+            if json_data[i]['id'] == int(e):
+                del json_data[i]
+                break
+
+    # 4.jsonファイルのidを整列
+    count = 1
+    for e in range(len(json_data)):
+        json_data[e]['id'] = count
+        count = count + 1
+        
+    # 5.jsonファイルに書き込む
+    with open('todo-list.json', 'w') as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+
+    return jsonify({
+        "status": "append completed"
+    })
 
 
 # http://127.0.0.1:5000/sort
