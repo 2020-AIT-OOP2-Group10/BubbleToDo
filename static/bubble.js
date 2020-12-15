@@ -90,7 +90,7 @@ window.onload = function() {
                     sprite: {
                         //img/${name}.png
                         //{{url_for('static', filename='ayrton_senna_movie_wallpaper_by_bashgfx-d4cm6x6.jpg')}}
-                        texture: `url_for('img', filename='${name}.png')`
+                        texture: `../img/${name}.png`
                     }
                 }
             });
