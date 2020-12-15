@@ -48,10 +48,21 @@ document.getElementById("add-submit").addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
     e.preventDefault()
 
+    let ct = document.getElementById("content").value
+    let tl = document.getElementById("time-limit").value
+    if(!ct || !tl){
+        return
+    }
     // データを追加する処理
-
+    let data = new FormData()
+    data.append("ct", ct)
+    data.append("tl", tl)
     // データを表示
-    init()
+    fetch('/add', { method: 'POST', body: data }).then(response => {
+        console.log(response)
+        init()
+    })
+        
 })
 
 // データを削除する(K19051)
