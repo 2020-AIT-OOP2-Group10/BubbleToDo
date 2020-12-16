@@ -1,7 +1,6 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, send_from_directory
 import json  # Python標準のJSONライブラリを読み込んで、データの保存等に使用する
 import datetime # 日付でソートする際に使用
-import random
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False  # 日本語などのASCII以外の文字列を返したい場合は、こちらを設定しておく
@@ -50,6 +49,8 @@ def add():
         "status": "append completed"
     })
     # todoリストのデータ自体は返さない
+    pass
+
 
 # http://127.0.0.1:5000/remove
 @app.route('/remove', methods=["POST"])
@@ -112,6 +113,12 @@ def sort():
 def index():
     return(render_template("index.html"))
 
+
+UPLOAD_FOLDER = "./img"
+
+@app.route('/uploads/<filename>') 
+def send_file(filename): 
+    return send_from_directory(UPLOAD_FOLDER, filename) 
 
 if __name__ == "__main__":
     # debugモードが不要の場合は、debug=Trueを消してください
