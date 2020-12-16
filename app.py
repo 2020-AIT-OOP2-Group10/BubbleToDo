@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 import json  # Python標準のJSONライブラリを読み込んで、データの保存等に使用する
 import datetime # 日付でソートする際に使用
+import random
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False  # 日本語などのASCII以外の文字列を返したい場合は、こちらを設定しておく
@@ -23,13 +24,32 @@ def add():
     # jsonファイルに新規データを登録する
 
     # 1.jsonファイルを開く(add(get関数内を参考に))
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
     # 2.追加するデータを取得
+    content_name = request.form.get('ct')
+    timelimit = request.form.get('tl')
     # 3.データをappendする
+    color_str = "#"
+    for i in range(6):
+        color_str = color_str + random.choice('0123456789ABCDEF')
+
+    item = {}
+    item["id"] = len(json_data) + 1
+    item["content"] = content_name
+    item["timelimit"] = timelimit.replace('-','/')
+    item["color"] = color_str
+    json_data.append(item)
     # 4.jsonファイルに書き込む
+    print(json_data)
+    with open('todo-list.json', 'w') as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
+    return jsonify({
+        "status": "append completed"
+    })
     # todoリストのデータ自体は返さない
-    pass
-
 
 # http://127.0.0.1:5000/remove
 @app.route('/remove', methods=["POST"])
