@@ -101,10 +101,12 @@ sortSubmit.addEventListener("click", (e) => {
         // 初期->ソート
         init(app_route="/sort");
         sortSubmit.value = "sorted";
+        sortSubmit.innerText = "登録順にソート";
     } else if (sortSubmit.value == "sorted") {
         // ソート->初期
         init();
         sortSubmit.value = "init";
+        sortSubmit.innerText = "期限順にソート";
     }
 
 })
