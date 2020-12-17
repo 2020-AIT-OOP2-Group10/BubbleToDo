@@ -58,6 +58,20 @@ Repository/
 
 # 実行方法
 
+## 事前準備
+
+- Pillowのインストール
+
+以下のコマンドを実行
+<pre>$ pip install Pillow</pre>
+
+- Flaskのインストール
+
+以下のコマンドを実行
+<pre>$ pip install flask</pre>
+
+## 実行手順
+
 1. Repositoryのディレクトリに移動し、以下のコマンドを実行
 <pre>$ python3 app.py</pre>
 
