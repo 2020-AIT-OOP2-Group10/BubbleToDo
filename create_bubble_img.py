@@ -7,13 +7,12 @@ from PIL import Image, ImageDraw, ImageFilter
 from datetime import datetime as dt
 import json
 
-#フォントをしていするためにメイリオをファイルで読み込む
-font_path = "meiryo.ttc"
-
-
 ##　About バブルに貼り付ける画像を作成するプログラム
 
 def create_bubble_img(content_text:str, date:str, color_code:str):
+
+    #フォントをしていするためにメイリオをファイルで読み込む
+    font_path = "meiryo.ttc"
 
     # date_format == "2020/12/10"
     content_date = date.split("/")
@@ -118,17 +117,13 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
     im_thumb = mask_circle_transparent(im_square, 10)
     im_thumb.save(f'./img/{text}.png')
 
-# TODO
-# ここからの処理をapp.pyで制御する
+# # ここからの処理をapp.pyで制御する
 
-#　json読み込み
-with open('todo-list.json','r',encoding="utf-8") as f:
-    jsn = json.load(f)
+# #　json読み込み
+# with open('todo-list.json','r',encoding="utf-8") as f:
+#     jsn = json.load(f)
 
-# jsonからもらったデータをもとに画像を一つづつ作成する
+# # jsonからもらったデータをもとに画像を一つづつ作成する
 
-for i in range(0,len(jsn)):
-    create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
-
-
-# 経過した日付を確定
+# for i in range(0,len(jsn)):
+#     create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
