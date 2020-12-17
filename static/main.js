@@ -92,20 +92,19 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
 })
 
 // データをソートする(KawaiKohsuke)
-document.getElementById("sort-submit").addEventListener("click", (e) => {
+const sortSubmit = document.getElementById("sort-submit");
+sortSubmit.addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
     e.preventDefault();
 
-    const value = document.getElementById("sort-submit").value;
-
-    if (value == "init") {
-        // ソート
+    if (sortSubmit.value == "init") {
+        // 初期->ソート
         init(app_route="/sort");
-        value = "sorted";
-    } else if (value == "sorted") {
-        // 初期
+        sortSubmit.value = "sorted";
+    } else if (sortSubmit.value == "sorted") {
+        // ソート->初期
         init();
-        value = "init";
+        sortSubmit.value = "init";
     }
-      
+
 })
