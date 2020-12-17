@@ -22,28 +22,61 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
     now = dt.now()
     elapsed_time = (dt(now.year,now.month,now.day)-dt(int(content_date[0]),int(content_date[1]),int(content_date[2]))).days
 
-    # 使うフォント，サイズ，描くテキストの設定
+    # elapsed_timeは正の値の場合は今日の日付と比較して過ぎている（値が大きくなればなるほど）
+    # 負の値の場合は今日の日付と比較して期限がまだ来ていない（値が小さくなればなるほど）
+    if 0 < elapsed_time <= 3:
+        # 期限が過ぎてる
+        canvasSize=(315, 315)
+        thumb_width = 315
+        fontsize = 200
+    
+    elif 0 == elapsed_time:
+        # 期限が同日
+        canvasSize=(215,215)
+        thumb_width = 215
+        fontsize = 60
+
+    else:
+        # 期限が未来の場合
+        canvasSize=(115,115)
+        thumb_width = 115
+        fontsize = 30
+    
+
+    # 使うフォント,描くテキストの設定(先頭から三文字)
     ttfontname = font_path
-    fontsize = 46
 
     if len(content_text) < 3:
         text = content_text
     else:
         text = content_text[:3]
 
-    # 画像サイズ，背景色，フォントの色を設定
+    # 背景色決定（引数から）
+    rgb_data = []
+    rgb_data += [int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16)]
+    print(int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16))
     backgroundRGB = (int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16))
-    textRGB       = (255,255,255)
 
-    if 0 <= elapsed_time <= 3:
-        #safe
-        canvasSize    = (115, 115)
-    elif 4 <= elapsed_time <= 6:
-        # CAUTION
-        canvasSize    = (215, 215)
+    #フォントの色を設定(補色)
+    # 全部黒だったら文字色は白にする　（白なら黒）
+    if rgb_data[0] is 255 and rgb_data[1] is 255 and rgb_data[2] is 255:
+        textRGB = (0,0,0)
+    elif rgb_data[0] is 0 and rgb_data[1] is 0 and rgb_data[2] is 0:
+        textRGB = (255,255,255)
     else:
-        # WARNING
-        canvasSize    = (315, 315)
+        # 補色の計算
+        base_num = max(rgb_data) + min(rgb_data)
+        textRGB       = (base_num-rgb_data[0],base_num-rgb_data[1],base_num-rgb_data[2])
+
+    # if 0 <= elapsed_time <= 3:
+    #     #safe
+    #     canvasSize    = (115, 115)
+    # elif 4 <= elapsed_time <= 6:
+    #     # CAUTION
+    #     canvasSize    = (215, 215)
+    # else:
+    #     # WARNING
+    #     canvasSize    = (315, 315)
 
     # 文字を描く画像の作成
     im  = PIL.Image.new('RGB', canvasSize, backgroundRGB)
@@ -62,11 +95,13 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
                              (img_width + crop_width) // 2,
                              (img_height + crop_height) // 2))
 
-    thumb_width = 150
+    # thumb_width = 150
 
+    # 円形にマスク
     def crop_max_square(pil_img):
         return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
+    # マスクされたものの周りをブラーでぼかす
     def mask_circle_transparent(pil_img, blur_radius, offset=0):
         offset = blur_radius * 2 + offset
         mask = Image.new("L", pil_img.size, 0)
@@ -91,5 +126,9 @@ with open('todo-list.json','r',encoding="utf-8") as f:
     jsn = json.load(f)
 
 # jsonからもらったデータをもとに画像を一つづつ作成する
+
 for i in range(0,len(jsn)):
     create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+
+
+# 経過した日付を確定
