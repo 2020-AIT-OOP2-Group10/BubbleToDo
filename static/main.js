@@ -87,7 +87,11 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
     // 取得したidを渡してpythonのjson削除関数を呼ぶ
     fetch('/remove', { method: 'POST', body: array, }).then(function (response) {
         // データを表示
-        init()
+        if(document.getElementById("sort-submit") == "init"){
+            init()
+        }else{
+            init(app_route="/sort")
+        }
     })
 })
 
