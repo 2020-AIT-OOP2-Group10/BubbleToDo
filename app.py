@@ -32,6 +32,19 @@ def add():
     content_name = request.form.get('ct')
     timelimit = request.form.get('tl')
     # 3.データをappendする
+    while True:
+        # ランダムな色を生成
+        color_str = "#"
+        for i in range(6):
+            color_str = color_str + random.choice('0123456789ABCDEF')
+
+        # 白に近すぎる色は例外処理    
+        color_r = int(color_str[1:3], 16)
+        color_g = int(color_str[3:5], 16)
+        color_b = int(color_str[5:7], 16)
+        if color_r < 200 or color_g < 200 or color_b < 200:
+            break
+
     color_str = "#"
     for i in range(6):
         color_str = color_str + random.choice('0123456789ABCDEF')
