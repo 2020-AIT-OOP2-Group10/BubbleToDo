@@ -94,8 +94,18 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
 // データをソートする(KawaiKohsuke)
 document.getElementById("sort-submit").addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
-    e.preventDefault()
+    e.preventDefault();
 
-    // データは既に"app.py"にてソートされている。表示する手順はinit()と同様である
-    init(app_route="/sort")    
+    const value = document.getElementById("sort-submit").value;
+
+    if (value == "init") {
+        // ソート
+        init(app_route="/sort");
+        value = "sorted";
+    } else if (value == "sorted") {
+        // 初期
+        init();
+        value = "init";
+    }
+      
 })
