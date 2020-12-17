@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 import json  # Python標準のJSONライブラリを読み込んで、データの保存等に使用する
 import datetime # 日付でソートする際に使用
+import create_bubble_img
+import random
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False  # 日本語などのASCII以外の文字列を返したい場合は、こちらを設定しておく
@@ -45,6 +47,14 @@ def add():
     with open('todo-list.json', 'w') as f:
         json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
+    #　json読み込み
+    with open('todo-list.json','r',encoding="utf-8") as f:
+        jsn = json.load(f)
+
+    # バブル画像を作成
+    for i in range(0,len(jsn)):
+        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+
     return jsonify({
         "status": "append completed"
     })
@@ -81,6 +91,14 @@ def remove():
     # 5.jsonファイルに書き込む
     with open('todo-list.json', 'w') as f:
         json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+    
+    #　json読み込み
+    with open('todo-list.json','r',encoding="utf-8") as f:
+        jsn = json.load(f)
+
+    # バブル画像を作成
+    for i in range(0,len(jsn)):
+        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
     return jsonify({
         "status": "append completed"
@@ -111,6 +129,15 @@ def sort():
 # http://127.0.0.1:5000/
 @app.route('/')
 def index():
+
+    #　json読み込み
+    with open('todo-list.json','r',encoding="utf-8") as f:
+        jsn = json.load(f)
+
+    # バブル画像を作成
+    for i in range(0,len(jsn)):
+        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+
     return(render_template("index.html"))
 
 
