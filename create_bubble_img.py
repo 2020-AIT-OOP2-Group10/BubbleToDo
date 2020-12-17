@@ -58,9 +58,9 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
 
     #フォントの色を設定(補色)
     # 全部黒だったら文字色は白にする　（白なら黒）
-    if rgb_data[0] is 255 and rgb_data[1] is 255 and rgb_data[2] is 255:
+    if rgb_data[0] == 255 and rgb_data[1] == 255 and rgb_data[2] == 255:
         textRGB = (0,0,0)
-    elif rgb_data[0] is 0 and rgb_data[1] is 0 and rgb_data[2] is 0:
+    elif rgb_data[0] == 0 and rgb_data[1] == 0 and rgb_data[2] == 0:
         textRGB = (255,255,255)
     else:
         # 補色の計算
