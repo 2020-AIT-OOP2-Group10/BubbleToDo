@@ -4,16 +4,16 @@
 function init(app_route="/get") {
     // データの初期表示
     fetch(app_route).then(response => {
-        console.log(response)
+        //console.log(response)
         response.json().then((data) => {
-            console.log(data) // 取得されたレスポンスデータをデバッグ表示
+            //console.log(data) // 取得されたレスポンスデータをデバッグ表示
             // データを表示させる
             const tableBody = document.querySelector("#todo-list > tbody")
             tableBody.innerHTML = ""
             
             data.forEach(elm => {
                 // 1行づつ処理を行う
-                console.log(elm)
+                //console.log(elm)
                 let tr = document.createElement('tr')
                 // チェックボックス
                 let td = document.createElement('td')
@@ -87,15 +87,30 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
     // 取得したidを渡してpythonのjson削除関数を呼ぶ
     fetch('/remove', { method: 'POST', body: array, }).then(function (response) {
         // データを表示
-        init()
+        if(document.getElementById("sort-submit") == "init"){
+            init()
+        }else{
+            init(app_route="/sort")
+        }
     })
 })
 
 // データをソートする(KawaiKohsuke)
-document.getElementById("sort-submit").addEventListener("click", (e) => {
+const sortSubmit = document.getElementById("sort-submit");
+sortSubmit.addEventListener("click", (e) => {
     // ボタンイベントのキャンセル
-    e.preventDefault()
+    e.preventDefault();
 
-    // データは既に"app.py"にてソートされている。表示する手順はinit()と同様である
-    init(app_route="/sort")    
+    if (sortSubmit.value == "init") {
+        // 初期->ソート
+        init(app_route="/sort");
+        sortSubmit.value = "sorted";
+        sortSubmit.innerText = "登録順にソート";
+    } else if (sortSubmit.value == "sorted") {
+        // ソート->初期
+        init();
+        sortSubmit.value = "init";
+        sortSubmit.innerText = "期限順にソート";
+    }
+
 })
