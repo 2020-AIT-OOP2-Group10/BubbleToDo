@@ -7,11 +7,13 @@ Repository/
   ├ img/
   |   └ ---.png
   ├ static/
+  |   ├ bubble.js
   |   ├ bubbletodo.css
   |   └ main.js
   ├ templates/
   |   └ index.html
   ├ app.py
+  ├ create_bubble_img.py
   └ todo-list.json
 </pre>
 
