@@ -4,6 +4,8 @@
 # 内部ディレクトリ構造
 <pre>
 Repository/
+  ├ img/
+  |   └ ---.png
   ├ static/
   |   ├ bubbletodo.css
   |   └ main.js
@@ -17,8 +19,10 @@ Repository/
 | ---- | ---- |
 |  bubbletodo.css  |  index.htmlに適用するCSS  |
 |  main.js  |  index.html内のフォームの動作を定義するJavaScriptプログラム  |
+|  bubble.js  |  htmlに物理演算のバブルを表示させるJavascriptプログラム  |
 |  index.html  |  ToDoリストおよびバブルUIを表示するHTML  |
 |  app.py  |  Flaskルーティングとjsonファイルに対する操作を行うPythonプログラム  |
+|  create_bubble_img.py  |  bubble.jsで使うテクスチャに適用させる画像を作成するPythonプログラム  |
 |  todo-list.json  |  ToDoリストのデータが保存されているJSONファイル  |
 
 ## todo-list.jsonの内容例
