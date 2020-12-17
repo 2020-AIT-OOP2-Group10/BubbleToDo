@@ -51,6 +51,7 @@ Repository/
 
 - Python:3.5.8
 - Flask:1.1.2
+- Pillow:8.0.1
 - Jinja2:2.11.2
 - jQuery:1.9.1
 - Matter.js:0.14.2
