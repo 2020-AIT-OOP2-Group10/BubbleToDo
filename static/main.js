@@ -4,16 +4,16 @@
 function init(app_route="/get") {
     // データの初期表示
     fetch(app_route).then(response => {
-        console.log(response)
+        //console.log(response)
         response.json().then((data) => {
-            console.log(data) // 取得されたレスポンスデータをデバッグ表示
+            //console.log(data) // 取得されたレスポンスデータをデバッグ表示
             // データを表示させる
             const tableBody = document.querySelector("#todo-list > tbody")
             tableBody.innerHTML = ""
             
             data.forEach(elm => {
                 // 1行づつ処理を行う
-                console.log(elm)
+                //console.log(elm)
                 let tr = document.createElement('tr')
                 // チェックボックス
                 let td = document.createElement('td')

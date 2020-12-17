@@ -114,11 +114,13 @@ def index():
     return(render_template("index.html"))
 
 
-UPLOAD_FOLDER = "./img"
+@app.route('/upload_img/<filename>') 
+def send_img(filename):
+    return send_from_directory("./img", filename) 
 
-@app.route('/uploads/<filename>') 
-def send_file(filename): 
-    return send_from_directory(UPLOAD_FOLDER, filename) 
+@app.route('/upload_json/<filename>') 
+def send_json(filename):
+    return send_from_directory("./", filename) 
 
 if __name__ == "__main__":
     # debugモードが不要の場合は、debug=Trueを消してください
