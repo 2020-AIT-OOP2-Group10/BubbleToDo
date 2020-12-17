@@ -52,6 +52,8 @@ Repository/
 - Python:3.5.8
 - Flask:1.1.2
 - Jinja2:2.11.2
+- jQuery:1.9.1
+- Matter.js:0.14.2
 
 # 実行方法
 
