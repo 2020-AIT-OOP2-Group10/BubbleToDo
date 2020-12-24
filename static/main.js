@@ -51,6 +51,7 @@ document.getElementById("add-submit").addEventListener("click", (e) => {
     let ct = document.getElementById("content").value
     let tl = document.getElementById("time-limit").value
     if(!ct || !tl){
+        alert("入力に不備があります")
         return
     }
     // データを追加する処理
