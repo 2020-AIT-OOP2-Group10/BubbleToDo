@@ -21,54 +21,62 @@
     <title>バブルToDo</title>
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light">
       <span class="navbar-brand mb-0 h1">バブルToDo</span>
-  </nav>
-  <div class="container mt-5">
-      
-    <span>
-        <canvas id="stage"></canvas>
-    </span>
-    <span>
-      <table class="table" id="todo-list">
-          <thead>
-              <tr>
-                  <th scope="col">チェック</th>
-                  <th scope="col">内容</th>
-                  <th scope="col">期限</th>
-              </tr>
-          </thead>
-          <tbody id="tbody">
-              
-          </tbody>
-      </table>
-    </span>
-    
-    <div class="card">
-        <div class="card-body">
-            <h3>データの追加・削除・ソート</h3>
-            <form id="add">
-                <div class="form-row align-items-center">
-                    <div class="col-auto"><input type="text" class="form-control" placeholder="内容" id="content" name="ct"></div>
-                    <div class="col-auto"><input type="date" class="form-control" placeholder="期限" id="time-limit" name="tl"></div>
-                    <div class="col-auto"><button id="add-submit" class="btn btn-primary" onclick="location.reload()">追加</button></div>
-                </div>
-            </form>
-            <form id="remove">
-                <div class="col-auto"><button id="remove-submit" class="btn btn-primary" onclick="location.reload()">削除</button></div>
-            </form>
-            <form id="sort">
-                <div class="col-auto"><button id="sort-submit" class="btn btn-primary" value="init">期限順にソート</button></div>
-            </form>
-        </div>
-    </div>
+    </nav>
 
-  </div>
+    <div class="container">
+        <div class = "row">  
+            <div class ="col-lg-6">
+                <span>
+                    <canvas id="stage"></canvas>
+                </span>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>データの追加・削除・ソート</h3>
+                        <form id="add">
+                            <div class="form-row align-items-center">
+                                <div class="col-auto"><input type="text" class="form-control" placeholder="内容" id="content" name="ct"></div>
+                                <div class="col-auto"><input type="date" class="form-control" placeholder="期限" id="time-limit" name="tl"></div>
+                                <div class="col-auto"><button id="add-submit" class="btn btn-outline-dark" onclick="location.reload()">追加</button></div>
+                            </div>
+                        </form>
+                        <form id="remove">
+                            <div class="form-row align-items-center">
+                                <div class="col-auto"><button id="remove-submit" class="btn btn-outline-dark" onclick="location.reload()">削除</button></div>
+                            </div>
+                        </form>
+                        <form id="sort">
+                            <div class="form-row align-items-center">
+                                <div class="col-auto"><button id="sort-submit" class="btn btn-outline-dark" value="init">期限順にソート</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <span>
+                    <table class="table table-striped" id="todo-list">
+                        <thead>
+                            <tr>
+                                <th scope="col">チェック</th>
+                                <th scope="col">内容</th>
+                                <th scope="col">期限</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            
+                        </tbody>    
+                    </table>
+                </span>
+            </div>
+        </div>
+    </div>  
 
     <!-- Matter.jsライブラリ読み込み -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
-
+   
     <!-- バブル発生のコード -->
     <script defer src="{{ url_for('static', filename='bubble.js') }}"></script>
+    
 </body>
 </html>
