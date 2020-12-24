@@ -118,9 +118,9 @@ def remove():
     })
 
 
-# http://127.0.0.1:5000/sort
-@app.route('/sort')
-def sort():
+# http://127.0.0.1:5000/sort/time-limit
+@app.route('/sort/time-limit')
+def sort_time_limit():
     with open('todo-list.json') as f:
         json_data = json.load(f)
 
@@ -137,6 +137,38 @@ def sort():
 
     # jsonファイルの内容は変更せずに、htmlの表示上で変える
     return jsonify(sort_data)
+
+
+# http://127.0.0.1:5000/sort/content
+@app.route('/sort/content')
+def sort_content():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
+    # 内容を昇順にソート
+    sort_data = sorted(
+        json_data,
+        key=lambda x: x["content"]
+    )
+
+    return jsonify(sort_data)
+
+
+# http://127.0.0.1:5000/sort/color
+@app.route('/sort/color')
+def sort_color():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
+    # 色が濃い順(#FFFFFF -> #000000)にソート
+    sort_data = sorted(
+        json_data,
+        key=lambda x: x["color"]
+    )
+
+    return jsonify(sort_data)
+
+
 
 
 # http://127.0.0.1:5000/
