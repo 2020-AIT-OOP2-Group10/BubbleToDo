@@ -59,13 +59,13 @@ window.onload = function() {
     //JSONデータをフェッチ
     fetch("/get").then(response => {
         response.json().then((data) => {
-
+            //Matter.Composites.stack(xx, yy, columns, rows, columnGap, rowGap, callback) 
             var stack = Composites.stack(20, 20, 10, 4, 0, 0, function(x, y) {
                 
                 for (let i = 0;i < data.length;i++){
                     if (created_count == i) {
                         created_count += 1
-                        return Bodies.circle(x, y, 46, {
+                        return Bodies.circle(x, y, data[i]["size"] / 2, {
                             density: 0.001,
                             frictionAir: 0.3,
                             restitution: 0.03,

@@ -23,24 +23,14 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
 
     # elapsed_timeは正の値の場合は今日の日付と比較して過ぎている（値が大きくなればなるほど）
     # 負の値の場合は今日の日付と比較して期限がまだ来ていない（値が小さくなればなるほど）
-    if 0 < elapsed_time <= 3:
-        # 期限が過ぎてる
-        canvasSize=(315, 315)
-        thumb_width = 315
-        fontsize = 200
-    
-    elif 0 == elapsed_time:
-        # 期限が同日
-        canvasSize=(215,215)
-        thumb_width = 215
-        fontsize = 60
-
+    # バブルのサイズは100~400とし、一日ごとに10大きくなる(当日で最大、30日で最小となる)
+    thumb_width = min(max(400 + elapsed_time * 10, 100), 400)
+    canvasSize = (thumb_width, thumb_width)
+    fixsize = thumb_width/100
+    if fixsize == 0:
+        fontsize = 100 - 70
     else:
-        # 期限が未来の場合
-        canvasSize=(115,115)
-        thumb_width = 115
-        fontsize = 30
-    
+        fontsize = thumb_width - 70*int(fixsize)
 
     # 使うフォント,描くテキストの設定(先頭から三文字)
     ttfontname = font_path
@@ -53,7 +43,7 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
     # 背景色決定（引数から）
     rgb_data = []
     rgb_data += [int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16)]
-    print(int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16))
+    # print(int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16))
     backgroundRGB = (int(color_code[1:3],16),int(color_code[3:5],16),int(color_code[5:7],16))
 
     #フォントの色を設定(補色)
@@ -67,15 +57,6 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
         base_num = max(rgb_data) + min(rgb_data)
         textRGB       = (base_num-rgb_data[0],base_num-rgb_data[1],base_num-rgb_data[2])
 
-    # if 0 <= elapsed_time <= 3:
-    #     #safe
-    #     canvasSize    = (115, 115)
-    # elif 4 <= elapsed_time <= 6:
-    #     # CAUTION
-    #     canvasSize    = (215, 215)
-    # else:
-    #     # WARNING
-    #     canvasSize    = (315, 315)
 
     # 文字を描く画像の作成
     im  = PIL.Image.new('RGB', canvasSize, backgroundRGB)
@@ -84,7 +65,10 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
     # 用意した画像に文字列を描く
     font = PIL.ImageFont.truetype(ttfontname, fontsize)
     textWidth, textHeight = draw.textsize(text,font=font)
-    textTopLeft = (canvasSize[0]//8, canvasSize[1]//2.3-textHeight//2) # 前から1/6，上下中央に配置
+    # フォントの位置決定場
+    # textTopLeft = (canvasSize[0]/2 - (textWidth * len(text)) / 2, canvasSize[1]//2-textHeight//2)
+    # print(f"textWidth:{textWidth}, textHeight:{textHeight}")
+    textTopLeft = (canvasSize[0]/2-textWidth/2,canvasSize[1]/2-textHeight/1.7)
     draw.text(textTopLeft, text, fill=textRGB, font=font)
 
     def crop_center(pil_img, crop_width, crop_height):
@@ -114,16 +98,17 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
         return result
 
     im_square = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
-    im_thumb = mask_circle_transparent(im_square, 10)
+    im_thumb = mask_circle_transparent(im_square, 3)
     im_thumb.save(f'./img/{text}.png')
 
-# # ここからの処理をapp.pyで制御する
+    return thumb_width
 
-# #　json読み込み
-# with open('todo-list.json','r',encoding="utf-8") as f:
-#     jsn = json.load(f)
 
-# # jsonからもらったデータをもとに画像を一つづつ作成する
+#　json読み込み
+with open('todo-list.json','r',encoding="utf-8") as f:
+    jsn = json.load(f)
 
-# for i in range(0,len(jsn)):
-#     create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+
+# jsonからもらったデータをもとに画像を一つづつ作成する
+for i in range(0,len(jsn)):
+    create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])

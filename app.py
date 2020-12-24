@@ -56,7 +56,6 @@ def add():
     item["color"] = color_str
     json_data.append(item)
     # 4.jsonファイルに書き込む
-    print(json_data)
     with open('todo-list.json', 'w') as f:
         json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
@@ -66,7 +65,7 @@ def add():
 
     # バブル画像を作成
     for i in range(0,len(jsn)):
-        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+        jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
     return jsonify({
         "status": "append completed"
@@ -111,7 +110,7 @@ def remove():
 
     # バブル画像を作成
     for i in range(0,len(jsn)):
-        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+        jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
     return jsonify({
         "status": "append completed"
@@ -149,7 +148,11 @@ def index():
 
     # バブル画像を作成
     for i in range(0,len(jsn)):
-        create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+        jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+
+
+    with open('todo-list.json', 'w') as f:
+        json.dump(jsn, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
     return(render_template("index.html"))
 
