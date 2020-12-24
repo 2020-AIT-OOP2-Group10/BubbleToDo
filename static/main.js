@@ -96,14 +96,14 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
 })
 
 // データをソートする(KawaiKohsuke)
-const sortSubmit = document.querySelector("#sort-submit");
+const select = document.querySelector("#sort-submit");
 const options = document.querySelectorAll("#sort-submit option")
-sortSubmit.addEventListener("change", (e) => {
+select.addEventListener("change", (e) => {
     // チェンジイベントのキャンセル
     e.preventDefault();
 
-    // 選択されているインデックス及び値
-    let index = sortSubmit.selectedIndex;
+    // 選択されているオプションのインデックス及び値
+    let index = select.selectedIndex;
     let value = options[index].value;
 
     if (value == "id") {
