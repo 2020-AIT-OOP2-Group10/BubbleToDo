@@ -3,6 +3,9 @@ import json  # Python標準のJSONライブラリを読み込んで、データ�
 import datetime # 日付でソートする際に使用
 import create_bubble_img
 import random
+import time
+import os
+import glob
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False  # 日本語などのASCII以外の文字列を返したい場合は、こちらを設定しておく
@@ -67,6 +70,11 @@ def add():
     for i in range(0,len(jsn)):
         jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
+    # jsonファイルにsizeを付加してまた書き込む
+    with open('todo-list.json', 'w') as f:
+        json.dump(jsn, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+
+
     return jsonify({
         "status": "append completed"
     })
@@ -79,6 +87,7 @@ def add():
 def remove():
     # jsonファイルから選択されたデータを削除する
     
+    content_text_list = []
     # 1.jsonファイルを開く
     with open('todo-list.json') as f:
         json_data = json.load(f)
@@ -104,22 +113,42 @@ def remove():
     with open('todo-list.json', 'w') as f:
         json.dump(json_data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
     
-    #　json読み込み
-    with open('todo-list.json','r',encoding="utf-8") as f:
-        jsn = json.load(f)
 
-    # バブル画像を作成
-    for i in range(0,len(jsn)):
-        jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+    # 削除時はファイルの更新はいらなかった。
+    # 代わりに作成された画像ファイルの不要なものを削除する
+    #['./img/1234552wfag.png', './img/こんにいは.png', './img/はじめのいいいｓｄｈふぃｓふぇｓｆせｇ.png', './img/コンピュータ.png', './img/123452.png', './img/あいうれお.png', './img/一年後.png', './img/ランチ.png', './img/講義.png', './img/いあじｗｊだだ.png']
+    # ./img/内の画像ファイルをすべて読み込みリスト化する。
+    for i in range(len(json_data)):
+        content_text_list.append(json_data[i]["content"])
+
+    for row in glob.glob("./img/*"):
+        #JSONに同じ文字列があるか判定 
+        if row[6:-4] in content_text_list:
+            pass
+            # print(f"含まれる:{row[6:-4]}")
+        else:
+            # JSONファイル内に含まれていないものは削除する
+            os.remove(f"{row}")
+
+
+
+
+    # #　json読み込み
+    # with open('todo-list.json','r',encoding="utf-8") as f:
+    #     jsn = json.load(f)
+
+    # # バブル画像を作成
+    # for i in range(0,len(jsn)):
+    #     jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
     return jsonify({
         "status": "append completed"
     })
 
 
-# http://127.0.0.1:5000/sort
-@app.route('/sort')
-def sort():
+# http://127.0.0.1:5000/sort/time-limit
+@app.route('/sort/time-limit')
+def sort_time_limit():
     with open('todo-list.json') as f:
         json_data = json.load(f)
 
@@ -138,9 +167,43 @@ def sort():
     return jsonify(sort_data)
 
 
+# http://127.0.0.1:5000/sort/content
+@app.route('/sort/content')
+def sort_content():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
+    # 内容を昇順にソート
+    sort_data = sorted(
+        json_data,
+        key=lambda x: x["content"]
+    )
+
+    return jsonify(sort_data)
+
+
+# http://127.0.0.1:5000/sort/color
+@app.route('/sort/color')
+def sort_color():
+    with open('todo-list.json') as f:
+        json_data = json.load(f)
+
+    # 色が濃い順(#FFFFFF -> #000000)にソート
+    sort_data = sorted(
+        json_data,
+        key=lambda x: x["color"]
+    )
+
+    return jsonify(sort_data)
+
+
+
+
 # http://127.0.0.1:5000/
 @app.route('/')
 def index():
+
+    time.sleep(0.5)
 
     #　json読み込み
     with open('todo-list.json','r',encoding="utf-8") as f:
@@ -150,7 +213,7 @@ def index():
     for i in range(0,len(jsn)):
         jsn[i]["size"] = create_bubble_img.create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
 
-
+    # jsonファイルにsizeを付加してまた書き込む
     with open('todo-list.json', 'w') as f:
         json.dump(jsn, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
@@ -161,9 +224,13 @@ def index():
 def send_img(filename):
     return send_from_directory("./img", filename) 
 
+
+# JSONファイルを外部(URL)から読み込めるように
+"""
 @app.route('/upload_json/<filename>') 
 def send_json(filename):
     return send_from_directory("./", filename) 
+"""
 
 if __name__ == "__main__":
     # debugモードが不要の場合は、debug=Trueを消してください

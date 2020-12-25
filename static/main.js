@@ -51,6 +51,7 @@ document.getElementById("add-submit").addEventListener("click", (e) => {
     let ct = document.getElementById("content").value
     let tl = document.getElementById("time-limit").value
     if(!ct || !tl){
+        alert("入力に不備があります")
         return
     }
     // データを追加する処理
@@ -96,21 +97,28 @@ document.getElementById("remove-submit").addEventListener("click", (e) => {
 })
 
 // データをソートする(KawaiKohsuke)
-const sortSubmit = document.getElementById("sort-submit");
-sortSubmit.addEventListener("click", (e) => {
-    // ボタンイベントのキャンセル
+const select = document.querySelector("#sort-submit");
+const options = document.querySelectorAll("#sort-submit option")
+select.addEventListener("change", (e) => {
+    // チェンジイベントのキャンセル
     e.preventDefault();
 
-    if (sortSubmit.value == "init") {
-        // 初期->ソート
-        init(app_route="/sort");
-        sortSubmit.value = "sorted";
-        sortSubmit.innerText = "登録順にソート";
-    } else if (sortSubmit.value == "sorted") {
-        // ソート->初期
+    // 選択されているオプションのインデックス及び値
+    let index = select.selectedIndex;
+    let value = options[index].value;
+
+    if (value == "id") {
+        // 登録順
         init();
-        sortSubmit.value = "init";
-        sortSubmit.innerText = "期限順にソート";
+    } else if (value == "time-limit") {
+        // 期限順
+        init(app_route="sort/time-limit");
+    } else if (value=="content") {
+        // 内容順
+        init(app_route="sort/content")
+    } else if (value=="color") {
+        // 色順
+        init(app_route="sort/color")
     }
 
 })

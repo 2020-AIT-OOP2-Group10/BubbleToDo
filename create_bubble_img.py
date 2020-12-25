@@ -24,13 +24,13 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
     # elapsed_timeは正の値の場合は今日の日付と比較して過ぎている（値が大きくなればなるほど）
     # 負の値の場合は今日の日付と比較して期限がまだ来ていない（値が小さくなればなるほど）
     # バブルのサイズは100~400とし、一日ごとに10大きくなる(当日で最大、30日で最小となる)
-    thumb_width = min(max(400 + elapsed_time * 10, 100), 400)
+    thumb_width = min(max(350 + elapsed_time * 10, 100), 350)
     canvasSize = (thumb_width, thumb_width)
     fixsize = thumb_width/100
     if fixsize == 0:
-        fontsize = 100 - 70
+        fontsize = 100 - 80
     else:
-        fontsize = thumb_width - 70*int(fixsize)
+        fontsize = thumb_width - 80*int(fixsize)
 
     # 使うフォント,描くテキストの設定(先頭から三文字)
     ttfontname = font_path
@@ -78,8 +78,6 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
                              (img_width + crop_width) // 2,
                              (img_height + crop_height) // 2))
 
-    # thumb_width = 150
-
     # 円形にマスク
     def crop_max_square(pil_img):
         return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
@@ -99,16 +97,16 @@ def create_bubble_img(content_text:str, date:str, color_code:str):
 
     im_square = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
     im_thumb = mask_circle_transparent(im_square, 3)
-    im_thumb.save(f'./img/{text}.png')
+    im_thumb.save(f'./img/{content_text}.png')
 
     return thumb_width
 
 
-#　json読み込み
-with open('todo-list.json','r',encoding="utf-8") as f:
-    jsn = json.load(f)
+# #　json読み込み
+# with open('todo-list.json','r',encoding="utf-8") as f:
+#     jsn = json.load(f)
 
 
-# jsonからもらったデータをもとに画像を一つづつ作成する
-for i in range(0,len(jsn)):
-    create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])
+# # jsonからもらったデータをもとに画像を一つづつ作成する
+# for i in range(0,len(jsn)):
+#     create_bubble_img(jsn[i]["content"], jsn[i]["timelimit"], jsn[i]["color"])

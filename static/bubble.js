@@ -21,10 +21,10 @@ window.onload = function() {
 
     // create renderer
     var render = Render.create({
-        element: document.body,
+        element: document.getElementById("stage"),
         engine: engine,
         options: {
-            width: 800,
+            width: 600,
             height: 600,
             background: '#fff',
             showAngleIndicator: false,
@@ -48,10 +48,15 @@ window.onload = function() {
 
     // these static walls will not be rendered in this sprites example, see options
     World.add(world, [
-        Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 50.5, options),
-        Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 50.5, options),
-        Bodies.rectangle(800 + offset, 300, 50.5, 600.5 + 2 * offset, options),
-        Bodies.rectangle(-offset, 300, 50.5, 600.5 + 2 * offset, options)
+        //Matter.Bodies.rectangle(x, y, width, height, [options])
+        //上
+        Bodies.rectangle(400, -100, 900.5 + offset, 40.5, options),
+        //下
+        Bodies.rectangle(400, 700, 900.5 + offset, 40.5, options),
+        //右
+        Bodies.rectangle(800 + offset, 300, 50.5, 900.5 + 2 * offset, options),
+        //左
+        Bodies.rectangle(-offset, 300, 50.5, 900.5 + 2 * offset, options)
     ]);
     
     var created_count = 0;
@@ -59,20 +64,21 @@ window.onload = function() {
     //JSONデータをフェッチ
     fetch("/get").then(response => {
         response.json().then((data) => {
-            //Matter.Composites.stack(xx, yy, columns, rows, columnGap, rowGap, callback) 
+
             var stack = Composites.stack(20, 20, 10, 4, 0, 0, function(x, y) {
                 
                 for (let i = 0;i < data.length;i++){
                     if (created_count == i) {
                         created_count += 1
-                        return Bodies.circle(x, y, data[i]["size"] / 2, {
+                        //data[i]["size"] == 読み込む画像の横幅
+                        return Bodies.circle(x, y, data[i]["size"]/2, {
                             density: 0.001,
                             frictionAir: 0.3,
                             restitution: 0.03,
                             friction: 0.05,
                             render: {
                                 sprite: {
-                                    //画像貼り付け
+                                    //画像貼り付け(テクスチャ)
                                     texture: `${url}/upload_img/${data[i]["content"]}.png`
                                 }
                             }

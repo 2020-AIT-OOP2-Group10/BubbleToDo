@@ -27,7 +27,7 @@
   <div class="container mt-5">
       
     <span>
-        <canvas id="stage"></canvas>
+        <div id="stage"></div>
     </span>
     <span>
       <table class="table" id="todo-list">
@@ -58,7 +58,14 @@
                 <div class="col-auto"><button id="remove-submit" class="btn btn-primary" onclick="location.reload()">削除</button></div>
             </form>
             <form id="sort">
-                <div class="col-auto"><button id="sort-submit" class="btn btn-primary" value="init">期限順にソート</button></div>
+                <div class="col-auto">
+                    <select id="sort-submit">
+                        <option value="id">登録順にソート</option>
+                        <option value="time-limit">期限順にソート</option>
+                        <option value="content">内容順にソート</option>
+                        <option value="color">色順にソート</option>
+                    </select>
+                </div>
             </form>
         </div>
     </div>
