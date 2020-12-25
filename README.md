@@ -35,6 +35,7 @@ Repository/
         "id": 1,
         "content": "内容",
         "timelimit": "2020/12/10",
+        "size": 200,
         "color": "#ff0000"
     }
 ]
@@ -45,6 +46,7 @@ Repository/
 |  id  |  データ識別用ID.削除時に使用.整数型.  |
 |  content  |  ToDoリストの内容.文字列型.  |
 |  timelimit  |  ToDoの期限.文字列型.  |
+|  size  |  バブル用画像の大きさ.画像作成時に設定し、bubble.jsの当たり判定設定の際に使用する.  |
 |  color  |  ToDoとバブルを対応づけるための色.文字列型でカラーコードが保存される.  |
 
 # バージョン
