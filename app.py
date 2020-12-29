@@ -52,8 +52,14 @@ def add():
     for i in range(6):
         color_str = color_str + random.choice('0123456789ABCDEF')
 
+    co = 0
+    
+    for e in range(len(json_data)):
+        if json_data[co]['id'] <= json_data[e]['id']:
+                co = json_data[e]['id']
+
     item = {}
-    item["id"] = len(json_data) + 1
+    item["id"] = co + 1
     item["content"] = content_name
     item["timelimit"] = timelimit.replace('-','/')
     item["color"] = color_str
