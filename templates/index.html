@@ -28,53 +28,59 @@
   <nav class="navbar navbar-light bg-light">
       <span class="navbar-brand mb-0 h1">バブルToDo</span>
   </nav>
-  <div class="container mt-5">
-      
-    <span>
-        <div id="stage"></div>
-    </span>
-    <span>
-      <table class="table" id="todo-list">
-          <thead>
-              <tr>
-                  <th scope="col">チェック</th>
-                  <th scope="col">内容</th>
-                  <th scope="col">期限</th>
-              </tr>
-          </thead>
-          <tbody id="tbody">
-              
-          </tbody>
-      </table>
-    </span>
-    
-    <div class="card">
-        <div class="card-body">
-            <h3>データの追加・削除・ソート</h3>
-            <form id="add">
-                <div class="form-row align-items-center">
-                    <div class="col-auto"><input type="text" class="form-control" placeholder="内容" id="content" name="ct"></div>
-                    <div class="col-auto"><input type="date" class="form-control" placeholder="期限" id="time-limit" name="tl"></div>
-                    <div class="col-auto"><button id="add-submit" class="btn btn-primary" onclick="location.reload()">追加</button></div>
+  <div class="container">
+    <div class = "row">  
+        <div class ="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>データの追加・削除・ソート</h3>
+                    <form id="add">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto"><input type="text" class="form-control" placeholder="内容" id="content" name="ct"></div>
+                            <div class="col-auto"><input type="date" class="form-control" placeholder="期限" id="time-limit" name="tl"></div>
+                            <div class="col-auto"><button id="add-submit" class="btn btn-outline-dark" onclick="location.reload()">追加</button></div>
+                        </div>
+                    </form>
+                    <form id="remove">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto"><button id="remove-submit" class="btn btn-outline-dark" onclick="location.reload()">削除</button></div>
+                        </div>
+                    </form>
+                    <form id="sort">
+                        <div class="form-row align-items-center">
+                            <select id="sort-submit">
+                                <option value="id">登録順にソート</option>
+                                <option value="time-limit">期限順にソート</option>
+                                <option value="content">内容順にソート</option>
+                                <option value="color">色順にソート</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            <form id="remove">
-                <div class="col-auto"><button id="remove-submit" class="btn btn-primary" onclick="location.reload()">削除</button></div>
-            </form>
-            <form id="sort">
-                <div class="col-auto">
-                    <select id="sort-submit">
-                        <option value="id">登録順にソート</option>
-                        <option value="time-limit">期限順にソート</option>
-                        <option value="content">内容順にソート</option>
-                        <option value="color">色順にソート</option>
-                    </select>
-                </div>
-            </form>
+            </div>
+
+            <span>
+                <table class="table table-striped" id="todo-list">
+                    <thead>
+                        <tr>
+                            <th scope="col">チェック</th>
+                            <th scope="col">内容</th>
+                            <th scope="col">期限</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                    </tbody>    
+                </table>
+            </span>
+        </div>
+        <div class="col-lg-8">
+            <span>
+                <div id="stage"></div>
+            </span>
         </div>
     </div>
-
-  </div>
+</div>  
 
     <!-- Matter.jsライブラリ読み込み -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
