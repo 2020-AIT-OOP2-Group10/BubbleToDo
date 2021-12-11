@@ -1,6 +1,8 @@
 # BubbleToDo
 バブルUI付きToDoリスト
 
+![](./img/ScreenShot.png)
+
 # 内部ディレクトリ構造
 <pre>
 Repository/
